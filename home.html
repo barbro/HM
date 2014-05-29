@@ -18,9 +18,9 @@
 		#fail{background-color: #FF0000; z-index:3;}
 		</style>
 	</head>
-	<body style="font-size:50px; font-family: Arial;">
-		<br><table align="center" style="font-size:40px;"><tr style="font-size:40px;" id="table"></tr></table><br>
-		<p align="center">אותיות משומשות: <a id="used"></a></p>
+	<body style="font-size:15px; font-family: Arial;">
+		<br><table align="center" style="font-size:50px;"><tr style="font-size:50px;" id="table"></tr></table><br>
+		<p align="center" style="font-size:50px;">אותיות משומשות: <a id="used"></a></p>
 		<br><div id="VirtualKey" align="center">
     <input id="א" value="א" type="button" onclick="letter(this.id);" class="le"/>
     <input id="ב" value="ב" type="button" onclick="letter(this.id);" class="le"/>
@@ -57,14 +57,17 @@
 	<input value="נסה שוב?" type="button" onClick="location.reload()" />
 </div>
 		<script>
-			var word = "הכבש השישה עשר";
-			var word_arr = word.split("");
-			var word_arrs = word.split("");
+			var words = ["אין בגטים בגטו", "לא פוגע", "לשים לך דיסק", "אוטו זבל"];
 			var corr = 0
 			var tries = 6
 			var x = document.getElementById("table");
 			var used = []
 			var tmp_l = 0
+			
+			var word = words[Math.floor(Math.random()*(words.length))]
+			
+			var word_arr = word.split("");
+			var word_arrs = word.split("");
 			
 			$(".ss").hide()
 			
