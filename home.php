@@ -1,3 +1,23 @@
+<?php
+$server = "localhost";
+$username = "root";
+$password = "pifpaf";
+$database_name = "HangedMan";
+
+// 1 - database connection
+$connection = mysql_connect($server, $username, $password);
+if (!$connection) {
+  die('cant connecto to the database' . mysql_error());
+}
+// Hebrew need this:  
+mysql_query("SET NAMES 'utf8'");
+// 2 Select the database to use
+$db = mysql_select_db($database_name, $connection);
+if (!$db) {
+  die('database connction failed' . mysql_error());
+}
+?>
+
 <html DIR="RTL">
 
 	<head>
@@ -19,6 +39,30 @@
 		#fail{background-color: #FF0000; z-index:3;}
 		</style>
 	</head>
+
+	<?php
+    // 3 database query 
+    $result = mysql_query(
+            "SELECT * FROM words"
+            , $connection);
+    if (!$result) {
+      die(' database query failed: ' . mysql_error());
+    }
+     
+    // see what $result is with var_dump
+    //  var_dump($result);
+    
+    // 4 -  get the resource and put it in to array
+
+    while ($row = mysql_fetch_array($result)) {
+      // echo $row["id"] . "<br>";
+     // echo $row["word"] . "<br>";
+      // echo $row["content"] . "<br>";
+    	$rowt = $row ;
+    }
+
+  //  var_dump($rowt);
+    ?>
 
 	<body style="font-size:15px; font-family: Arial;">
 
@@ -69,7 +113,7 @@
 	<input value="נסה שוב?" type="button" onClick="location.reload()" />
 </div>
 		<script>
-			var words = ["אין בגטים בגטו", "לא פוגע", "לשים לך דיסק", "אוטו זבל"];
+			var words = ["<?php echo $rowt['word'] ; ?>", "לא פוגע", "לשים לך דיסק", "אוטו זבל"];
 			var corr = 0; 
 			var tries = 6 ;
 			var x = document.getElementById("table");
@@ -179,3 +223,8 @@
 		</script>
 	</body>
 </html>
+
+<?php
+// 5 close connection
+mysql_close($connection);
+?>
