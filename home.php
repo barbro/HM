@@ -105,7 +105,8 @@ if (!$db) {
 <div align="center"><img src="6.jpg" id="photo" width="200" height="auto"></div>
 <div id="win" class="ss" align="center">
 <br>ניצחת!!<br><br>
-	<input value="נסה שוב?" type="button" onClick="location.reload()" />
+	<input value="נסה שוב?" type="button" onClick="location.reload()" /> <br>
+	<input value="שלח מילה למאגר המילים" type="button" id="poop" onClick="send()" />
 </div>
 <div id="fail" class="ss" align="center">
 <br>הפסדת, לא נורא...<br><br>
@@ -215,6 +216,14 @@ if (!$db) {
 					}
 				
 				}
+			
+			}
+			
+			function send(){
+			
+				var word_s = prompt("שם של מה שאתם רוצים להוסיף (יכול להיות שם של ספר, סרט, שיר, להקה, חפץ..)");
+				var discription = prompt("תיאור של המילה שהזנתם");
+				$("#poop").prop('disabled', true);
 			
 			}
 			
