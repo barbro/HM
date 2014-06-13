@@ -16,6 +16,25 @@ $db = mysql_select_db($database_name, $connection);
 if (!$db) {
   die('database connction failed' . mysql_error());
 }
+
+// cach the get and print 
+
+if(isset($_POST)){
+var_dump($_POST); 
+
+$result = mysql_query(
+            "INSERT INTO `HangedMan`.`words` ( `word`, `discription`, `status` )
+             VALUES ('".$_POST['new_word']."', '".$_POST['discription']."', '0');"
+            , $connection);
+
+if($result){
+	echo $_POST['new_word'] . "נוספה";
+}
+
+unset($_POST);
+}
+
+
 ?>
 
 <html DIR="RTL">
@@ -54,17 +73,28 @@ if (!$db) {
     
     // 4 -  get the resource and put it in to array
 
-    while ($row = mysql_fetch_array($result)) {
+    $bar_words = array();
+
+    while ($row = mysql_fetch_array($result , MYSQL_ASSOC)) {
       // echo $row["id"] . "<br>";
      // echo $row["word"] . "<br>";
       // echo $row["content"] . "<br>";
-    	$rowt = $row ;
+    	 array_push($bar_words, $row);
     }
 
-  //  var_dump($rowt);
+    // var_dump($bar_words);
     ?>
 
 	<body style="font-size:15px; font-family: Arial;">
+
+		<form method="post" action="#">
+			<input type="text" name="new_word" > 
+			<input type="text" name="discription" > 
+			<input type="submit" value="הוספה">
+
+		</form>
+
+
 
 		<br><table align="center" style="font-size:50px;"><tr style="font-size:50px;" id="table"></tr></table><br>
 		
@@ -112,8 +142,47 @@ if (!$db) {
 
 	<input value="נסה שוב?" type="button" onClick="location.reload()" />
 </div>
+
+			<?php 
+				$string_of_words = "[";
+
+				foreach ($bar_words as $key => $value) {
+
+					if(is_array($value)){
+
+						$valueq = array_reverse($value);
+						//var_dump($valueq);
+						//die;
+
+						foreach ( $valueq as $k => $v) {
+							if($k == 'status' ) { 
+								if($v == '0') {
+									
+								break;
+
+								}
+							}
+							if($k == 'word'){
+								$string_of_words .= "'$v',";
+							}
+						}	
+					}
+				}
+
+				$string_of_words = chop($string_of_words,",");
+
+
+
+				$string_of_words .= "]";
+
+				//var_dump($string_of_words);
+
+
+			?>
+
 		<script>
-			var words = ["<?php echo $rowt['word'] ; ?>", "לא פוגע", "לשים לך דיסק", "אוטו זבל"];
+
+			var words = <?php echo $string_of_words ; ?>;
 			var corr = 0; 
 			var tries = 6 ;
 			var x = document.getElementById("table");
@@ -225,6 +294,10 @@ if (!$db) {
 </html>
 
 <?php
+
+
+
+
 // 5 close connection
 mysql_close($connection);
 ?>
