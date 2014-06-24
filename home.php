@@ -18,22 +18,24 @@ if (!$db) {
 }
 
 // cach the get and print 
-
-if(isset($_POST)){
+$result = "none";
+if(isset($_POST["new_word"])){
 var_dump($_POST); 
-
+$sent_word=false;
 $result = mysql_query(
             "INSERT INTO `HangedMan`.`words` ( `word`, `discription`, `status` )
              VALUES ('".$_POST['new_word']."', '".$_POST['discription']."', '0');"
             , $connection);
+} 
+if($result != "none"){
+	$ad_word = $_POST['new_word'];
+	$sent_word = true;
+	unset($_POST);
+} else {
 
-if($result){
-	echo $_POST['new_word'] . "נוספה";
+	$sent_word = false;
+
 }
-
-unset($_POST);
-}
-
 
 ?>
 
@@ -87,12 +89,6 @@ unset($_POST);
 
 	<body style="font-size:15px; font-family: Arial;">
 
-		<form method="post" action="#">
-			<input type="text" name="new_word" > 
-			<input type="text" name="discription" > 
-			<input type="submit" value="הוספה">
-
-		</form>
 
 
 
@@ -134,11 +130,21 @@ unset($_POST);
 
 <div align="center"><img src="6.jpg" id="photo" width="200" height="auto"></div>
 <div id="win" class="ss" align="center">
-<br>ניצחת!!<br><br>
+<br>ניצחת!!<br>
 	<input value="נסה שוב?" type="button" onClick="location.reload()" /> <br>
 	<input value="שלח מילה למאגר המילים" type="button" id="poop" onClick="send()" />
 </div>
 <div id="fail" class="ss" align="center">
+<form method="post" action="#" id="less">
+			המילה: <input type="text" name="new_word" > <br>
+			התיאור שלה: <input type="text" name="discription" > <br>
+			<input type="submit" value="הוספה">
+
+		</form><br><br>
+
+	<input value="נסה שוב?" type="button" onClick="location.reload()" />
+</div>
+<div id="send" style="font-size:30;" class="ss" align="center">
 <br>הפסדת, לא נורא...<br><br>
 
 	<input value="נסה שוב?" type="button" onClick="location.reload()" />
@@ -177,7 +183,12 @@ unset($_POST);
 				$string_of_words .= "]";
 
 				//var_dump($string_of_words);
-
+				
+				if($sent_word == true){
+				
+					echo "BBQ";
+				
+				}
 
 			?>
 
@@ -290,9 +301,7 @@ unset($_POST);
 			
 			function send(){
 			
-				var word_s = prompt("שם של מה שאתם רוצים להוסיף (יכול להיות שם של ספר, סרט, שיר, להקה, חפץ..)");
-				var discription = prompt("תיאור של המילה שהזנתם");
-				$("#poop").prop('disabled', true);
+$("#fail").show();
 			
 			}
 			
