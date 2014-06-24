@@ -92,7 +92,7 @@ if($result != "none"){
 
 
 
-		<br><table align="center" style="font-size:50px;"><tr style="font-size:50px;" id="table"></tr></table><br>
+		<br><table align="center" style="font-size:50px;"><tr style="font-size:50px;" id="table"></tr></table><br><a style="align:center;" ><img src="toribash.png" width="50px" onmouseover='$("#info").show();' onmouseout='$("#info").hide();'></a> 
 		
 		<p align="center" style="font-size:50px;">אותיות משומשות: <a id="used"></a>
 
@@ -302,6 +302,12 @@ if($result != "none"){
 			function send(){
 			
 $("#fail").show();
+			
+			}
+			
+			function strs(){
+			
+				
 			
 			}
 			
